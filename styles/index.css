@@ -16,56 +16,60 @@ h2 {
 
 #login-box {
     margin: 0 auto;
-    height: 100px;
     width: 50%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 50px 80px;
+    grid-template-rows: 100px 100px;
     row-gap: 20px;
 }
 #login-form {
-    height: 50px;
+    width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 10px 1fr 1fr;
-    grid-template-rows: 25px 50px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 25px 25px 50px;
     grid-column: 1/3;
     grid-row: 1/3;
     align-items: center;
-    justify-self: center;
-    column-gap: 5px;
-    row-gap: 5px;
+    row-gap: 20px;
+    margin: 0 auto;
 }
 #email-label {
-    grid-column: 1/2;
     grid-row: 1/2;
+    justify-self: end;
+    padding-right: 30px;
 }
 #email {
-    grid-column: 2/3;
     grid-row: 1/2;
+    width: 100%;
 }
 #password-label {
-    grid-column: 4/5;
-    grid-row: 1/2;
+    grid-row: 2/3;
+    justify-self: end;
+    padding-right: 30px;
 }
 #password {
-    grid-column: 5/6;
-    grid-row: 1/2;
+    grid-row: 2/3;
+    width: 100%;
+
+}
+#email-label, #email, #password-label, #password {
+    font-size: 20px;
 }
 #submit {
-    grid-column: 1/6;
-    grid-row: 2/3;
-    background-color: rgb(227, 227, 227);
-    border-radius: 10px;
-    width: 60px;
+    grid-row: 3/4;
+    grid-column: 1/3;
+    background-color: #F8F9FA;
+    border-radius: 20px;
+    width: 80px;
+    height: 30px;
     justify-self: center;
     align-self: center;
     border: 1px solid black;
-}
-#submit:active {
-    background-color: rgb(207, 207, 207);
+    font-size: 1em;
 }
 #submit:hover {
     cursor: pointer;
+    background-color: #FF6B35;
 }
 #create-account {
     grid-column: 1/2;
