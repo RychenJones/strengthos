@@ -67,6 +67,7 @@ h3{
 #name-label, #birthdate-label, #email-label, #password-label, #confirm-password-label {
     text-align: right;
     margin-right: 20px;
+    align-self: center;
 }
 #name, #birthdate, #email, #password, #confirm-password {
     max-width: 300px;
