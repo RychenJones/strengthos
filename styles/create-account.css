@@ -1,0 +1,75 @@
+#content {
+    max-width: 80%;
+}
+h3{
+    margin-bottom: 40px;
+}
+#sign-up-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    row-gap: 30px;
+}
+#name-label {
+    grid-column: 1/2;
+    grid-row: 1/2;
+}
+#name {
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+#birthdate-label {
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+#birthdate {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+#email-label {
+    grid-column: 1/2;
+    grid-row: 3/4;
+}
+#email {
+    grid-column: 2/3;
+    grid-row: 3/4;
+}
+#password-label {
+    grid-column: 1/2;
+    grid-row: 4/5;
+}
+#password {
+    grid-column: 2/3;
+    grid-row: 4/5;
+}
+#confirm-password-label {
+    grid-column: 1/2;
+    grid-row: 5/6;
+}
+#confirm-password {
+    grid-column: 2/3;
+    grid-row: 5/6;
+}
+#submit {
+    grid-column: 1/3;
+    grid-row: 6/7;
+    align-self: center;
+    justify-self: center;
+    width: 100px;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #F8F9FA;
+}
+#submit:hover {
+    cursor: pointer;
+    background-color: #FF6B35;
+}
+#name-label, #birthdate-label, #email-label, #password-label, #confirm-password-label {
+    text-align: right;
+    margin-right: 20px;
+}
+#name, #birthdate, #email, #password, #confirm-password {
+    max-width: 300px;
+    border: solid black 1px;
+    border-radius: 5px;
+}

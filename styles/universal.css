@@ -16,8 +16,15 @@ body {
     margin: 0;
     font-family: "work sans", arial;
 }
+#content {
+    margin-bottom: 80px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', verdana;
+}
 main {
-    max-width: 60%;
+    width: 80%;
+    max-width: 1000px;
     margin: 0 auto;
     text-align: center;
 }
