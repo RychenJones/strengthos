@@ -3,9 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="author" content="Rychen Jones">
+    <meta description>
+    <title>Entry Questionaire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="../styles/universal.css">
+    <link rel="stylesheet" href="../styles/questionaire.css">
 </head>
 <body>
-    
+    <header>
+        <img id="logo" src="../images/logo.png" alt="logo">
+    </header>
+    <main id="content">
+        <h3>Just a few more questions to get to know you and your goals!</h3>
+        <form id="questionaire">
+            <label id="weight-label" for="weight">Current bodyweight:</label>
+            <input type="number" id="weight" name="weight">
+
+            <label id="unit-label" for="unit">Weight unit:</label>
+            <select id="unit" name="unit">
+                <option value="lbs" selected>lbs</option>
+                <option value="kgs">kgs</option>
+            </select>
+
+            <label id="fitness-goal-label" for="fitness-goal">What is your primary fitness goal?</label>
+            <select id="fitness-goal" name="fitness-goal">
+                <option value="" disabled selected>Select</option>
+                <option value="strength">Strength</option>
+                <option value="hypertrophy">Hypertrophy</option>
+                <option value="endurance">Endurance</option>
+                <option value="fat-loss">Fat loss</option>
+            </select>
+
+            <label id="experience-label" for="experience">What is your exercise experience level?</label>
+            <select id="experience" name="experience">
+                <option value="" disabled selected>Select</option>
+                <option value="beginner">Beginner (brand new)</option>
+                <option value="intermediate">Intermediate (some exercise experience)</option>
+                <option value="advanced">Advanced (years of exercise experience)</option>
+            </select>
+
+            <label id="days-per-week-label" for="days-per-week">How many days per week do you want to excercise?</label>
+            <select id="days-per-week" name="days-per-week">
+                <option value="" disabled selected>Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+
+            <input id="submit" type="submit" value="Submit">
+        </form>
+    </main>
+    <footer>
+        <p>StrengthOS — Measure your strength, track your progress</p>
+        <p>&copy; 2026 Rychen Jones | StrengthOS</p>
+        <nav id="links">
+            <a href="../pages/about.html">About</a>
+        </nav>
+    </footer>
 </body>
 </html>
