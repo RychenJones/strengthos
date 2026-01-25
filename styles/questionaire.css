@@ -1,0 +1,52 @@
+#content {
+    max-width: 80%;
+}
+h3 {
+    margin-bottom: 40px;
+    font-size: 1.5em;
+}
+#questionaire {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    row-gap: 30px;
+}
+#weight-label, #fitness-goal-label, #experience-label, #days-per-week-label {
+    text-align: right;
+    padding-right: 20px;
+    height: 1rem;
+    align-self: center;
+}
+#fitness-goal, #experience, #days-per-week {
+    max-width: 300px;
+    border: solid black 1px;
+    border-radius: 5px;
+    width: 100%;
+}
+#bodyweight {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    justify-self: start;
+    max-width: 300px;
+    border: solid black 1px;
+    border-radius: 5px;
+}
+#weight {
+    width: 100px;
+}
+#unit {
+    width: 70px;
+}
+#submit {
+    grid-column: 1/3;
+    grid-row: 5/6;
+    width: 100px;
+    justify-self: center;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #F8F9FA;
+}
+#submit:hover {
+    cursor: pointer;
+    background-color: #FF6B35;
+}
