@@ -78,6 +78,10 @@ nav a {
     text-align: center;  
     width: fit-content;
     padding: 20px;
+    font-size: 1.5em;
+}
+nav a:hover{
+    color: #FF6B35;
 }
 nav {
     display: flex;
@@ -113,10 +117,7 @@ footer a {
     }
     #nav-bar a {
         margin: 0 8%;
-        font-size: 1.3em;
-    }
-    nav a:hover{
-        color: #FF6B35;
+        font-size: 1.5em;
     }
     header{
         display: flex;
