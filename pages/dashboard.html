@@ -13,12 +13,12 @@
 </head>
 <body>
     <header>
-        <img id="logo" src="../images/logo.png" alt="logo">
-        <button id="ham-menu">
+        <img id="logo" class="hide" src="../images/logo.png" alt="logo">
+        <!-- <button id="ham-menu">
             <div id="bar1"></div>
             <div id="bar2"></div>
             <div id="bar3"></div>
-        </button>
+        </button> -->
         <nav class="hide" id="nav-bar">
             <a href="dashboard.html">Home</a>
             <a href="about.html">About</a>
@@ -29,11 +29,26 @@
         </div>
     </header>
     <main id="content">
-        <a id="log" href="log-workout.html">Log Workout</a>
-        <a id="progress" href="view-progress.html">View Progress</a>
-        <a id="history" href="workout-history.html">Workout History</a>
+        <section id="buttons">
+            <a id="log" href="log-workout.html">Log Workout</a>
+            <a id="progress" href="view-progress.html">View Progress</a>
+            <a id="history" href="workout-history.html">Workout History</a>
+        </section>
+        <section id="widgets">
+            <div id="prs">
+                <p>Bench Press PR: <span class="info">305</span></p>
+                <p>Squat PR: <span class="info">265</span></p>
+                <p>Deadlift PR: <span class="info">385</span></p>
+            </div>
+            <div id="workouts-week">
+                <p><span class="info">5</span><br> workouts completed this week!</p>
+            </div>
+            <div id="workouts-month">
+                <p><span class="info">10</span><br> workouts completed this month!</p>
+            </div>
+        </section>
     </main>
-    <footer>
+    <footer class="hide">
         <p>StrengthOS — Measure Your Strength, Track Your Progress</p>
         <p>&copy; 2026 Rychen Jones | StrengthOS</p>
         <section id="links">

@@ -10,12 +10,21 @@
 
 #content {
     margin-top: 25px;
+}
+#buttons {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 200px 200px 200px;
+    grid-template-rows: auto auto auto;
+    margin-bottom: 70px;
+}
+#widgets {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
 }
 #progress, #log, #history {
     padding: 40px;
+    margin: 10px auto;
     color: black;
     text-decoration: none;
     text-align: center;
@@ -25,7 +34,44 @@
     width: 60%;
     font-size: 1.5em;
 }
+#workouts-week, #workouts-month, #prs {
+    padding: 40px;
+    margin: 10px auto;
+    text-align: center;
+    align-self: center;
+    justify-self: center;
+    border: 5px grey solid;
+    height: 100px;
+    width: 200px;
+    font-size: 1.2em;
+    display: flex;
+    flex-direction: column;
+}
+#widgets p {
+    margin: auto 0;
+}
+#prs {
+    text-align: left;
+}
+.info {
+    color: var(--orange);
+    font-weight: 500;
+}
+#workouts-week .info, #workouts-month .info {
+    font-size: 2em;
+}
 #progress:hover, #log:hover, #history:hover {
     background-color: #FF6B35;
     border: 3px grey solid;
+}
+
+@media screen and (min-width: 1200px) {
+    #buttons {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+    }
+    #widgets {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+    }
 }
