@@ -62,6 +62,7 @@ h2 {
     border: 1px solid black;
     font-size: 1em;
     color: black;
+    -webkit-appearance: none;
 }
 #submit:hover {
     cursor: pointer;
