@@ -19,6 +19,9 @@ orange: #FF6B35
 light grey: #F8F9FA
 teal: #00BFA5 
 */
+html, body {
+  height: 100%;
+}
 body {
     margin: 0;
     font-family: "work sans", arial;
