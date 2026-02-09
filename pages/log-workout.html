@@ -13,12 +13,7 @@
 </head>
 <body>
     <header>
-        <img id="logo" src="../images/logo.png" alt="logo">
-        <button id="ham-menu">
-            <div id="bar1"></div>
-            <div id="bar2"></div>
-            <div id="bar3"></div>
-        </button>
+        <img id="logo" class="hide" src="../images/logo.png" alt="logo">
         <nav class="hide" id="nav-bar">
             <a href="#">Home</a>
             <a href="#">About</a>
@@ -29,7 +24,58 @@
         </div>
     </header>
     <main id="content">
+        <form id="workout">
+            <label id="date-label" for="date">Date: </label>
+            <input type="date" id="date" name="date">
 
+            <label id="duration-label" for="duration">Workout duration (minutes): </label>
+            <input type="number" id="duration" name="duration">
+
+            <label id="intensity-label" for="intensity">Workout intensity: </label>
+            <select id="" name="">
+                <option value="" selected>Select intensity level</option>
+                <option value="1">1 - very easy</option>
+                <option value="2">2</option>
+                <option value="3">3 - easy</option>
+                <option value="4">4</option>
+                <option value="5">5 - moderately difficult</option>
+                <option value="6">6</option>
+                <option value="7">7 - challenging </option>
+                <option value="8">8</option>
+                <option value="9">9 - strenuous</option>
+            </select>
+            <div id="workout-info">
+                <label id="exercise-label" for="exercise">Exercise</label>
+                <select id="exercise">
+                    <option value="" disabled selected>Select an exercise</option>
+                    <option value="bench press">Bench Press</option>
+                </select>
+
+                <label id="weight-label" for="weight">Weight: </label>
+                <input type="number" id="weight" name="weight">
+
+                <div id="weight-group">
+                    <label id="weight-label" for="weight">Weight: </label>
+                    <input type="number" id="weight" name="weight">
+                    <select id="unit" name="unit">
+                        <option value="lbs" selected>lbs</option>
+                        <option value="kgs">kgs</option>
+                    </select>
+                </div>
+                
+                <label id="sets-label" for="sets">Sets completed: </label>
+                <input type="number" id="sets" name="sets">
+
+                <label id="reps-label" for="reps">Reps completed: </label>
+                <input type="number" id="sets" name="sets">
+            </div>
+
+            <button id="add-workout" type="button">
+                Add exercise
+            </button>
+
+            <input id="submit" type="submit" value="Log workout">
+        </form>
     </main>
     <footer>
         <p>StrengthOS — Measure Your Strength, Track Your Progress</p>
