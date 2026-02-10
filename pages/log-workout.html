@@ -25,14 +25,14 @@
     </header>
     <main id="content">
         <form id="workout">
-            <label id="date-label" for="date">Date: </label>
+            <label id="date-label" for="date" required>Workout date: </label>
             <input type="date" id="date" name="date">
 
             <label id="duration-label" for="duration">Workout duration (minutes): </label>
             <input type="number" id="duration" name="duration">
 
             <label id="intensity-label" for="intensity">Workout intensity: </label>
-            <select id="" name="">
+            <select id="intensity" name="">
                 <option value="" selected>Select intensity level</option>
                 <option value="1">1 - very easy</option>
                 <option value="2">2</option>
@@ -44,23 +44,22 @@
                 <option value="8">8</option>
                 <option value="9">9 - strenuous</option>
             </select>
-            <div id="workout-info">
+            <div id="exercise-info">
                 <label id="exercise-label" for="exercise">Exercise</label>
                 <select id="exercise">
                     <option value="" disabled selected>Select an exercise</option>
                     <option value="bench press">Bench Press</option>
                 </select>
 
-                <label id="weight-label" for="weight">Weight: </label>
-                <input type="number" id="weight" name="weight">
-
                 <div id="weight-group">
                     <label id="weight-label" for="weight">Weight: </label>
-                    <input type="number" id="weight" name="weight">
-                    <select id="unit" name="unit">
-                        <option value="lbs" selected>lbs</option>
-                        <option value="kgs">kgs</option>
-                    </select>
+                    <div id="weight-input">
+                        <input type="number" id="weight" name="weight">
+                        <select id="unit" name="unit">
+                            <option value="lbs" selected>lbs</option>
+                            <option value="kgs">kgs</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <label id="sets-label" for="sets">Sets completed: </label>
@@ -70,8 +69,8 @@
                 <input type="number" id="sets" name="sets">
             </div>
 
-            <button id="add-workout" type="button">
-                Add exercise
+            <button id="add-exercise" type="button">
+                Add new exercise
             </button>
 
             <input id="submit" type="submit" value="Log workout">
