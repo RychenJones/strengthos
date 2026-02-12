@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="../styles/universal.css">
     <link rel="stylesheet" href="../styles/log-workout.css">
-    <script src="../javascript/universal.js" defer></script>
+    <!-- <script src="../javascript/universal.js" defer></script> -->
+    <script src="../javascript/log-workout.js" defer></script>
 </head>
 <body>
     <header>
@@ -24,6 +25,7 @@
         </div>
     </header>
     <main id="content">
+        <h1>Log Workout</h1>
         <form id="workout">
             <label id="date-label" for="date" required>Workout date: </label>
             <input type="date" id="date" name="date">
@@ -44,33 +46,11 @@
                 <option value="8">8</option>
                 <option value="9">9 - strenuous</option>
             </select>
-            <div id="exercise-info">
-                <label id="exercise-label" for="exercise">Exercise</label>
-                <select id="exercise">
-                    <option value="" disabled selected>Select an exercise</option>
-                    <option value="bench press">Bench Press</option>
-                </select>
+            <div id="exercise-box">
 
-                <div id="weight-group">
-                    <label id="weight-label" for="weight">Weight: </label>
-                    <div id="weight-input">
-                        <input type="number" id="weight" name="weight">
-                        <select id="unit" name="unit">
-                            <option value="lbs" selected>lbs</option>
-                            <option value="kgs">kgs</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <label id="sets-label" for="sets">Sets completed: </label>
-                <input type="number" id="sets" name="sets">
-
-                <label id="reps-label" for="reps">Reps completed: </label>
-                <input type="number" id="sets" name="sets">
             </div>
-
             <button id="add-exercise" type="button">
-                Add new exercise
+                Add exercise
             </button>
 
             <input id="submit" type="submit" value="Log workout">
