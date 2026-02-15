@@ -108,6 +108,9 @@ footer a {
 .hide {
     display: none;
 }
+footer p, a {
+    margin: 15px 10px;
+}
 
 
 @media screen and (min-width: 1200px){
