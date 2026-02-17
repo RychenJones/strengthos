@@ -9,22 +9,22 @@ h1 {
     row-gap: 10px;
     margin-top: 50px;
 }
-#date-label, #duration-label, #intensity-label, #date, #duration, #intensity {
+#name-label, #date-label, #duration-label, #intensity-label, #name, #date, #duration, #intensity {
     margin: 0px;
 }
-#date-label, #duration-label, #intensity-label, .exercise-label, .weight-label, .sets-label, .reps-label, .weight-label {
+#name-label, #date-label, #duration-label, #intensity-label, .exercise-label, .weight-label, .sets-label, .reps-label, .weight-label {
     text-align: right;
     margin-right: 20px;
     align-self: center;
     grid-column: 1/2;
 }
-#date, #duration, #intensity, .exercise, .weight, .sets, .reps, .unit {
+#name, #date, #duration, #intensity, .exercise, .weight, .sets, .reps, .unit {
     max-width: 300px;
     border: solid black 1px;
     border-radius: 5px;
     grid-column: 2/3;
 }
-#date, #duration, .weight, .sets, .reps, .unit {
+#name, #date, #duration, .weight, .sets, .reps, .unit {
     max-width: 296px;
 }
 #exercise-box {

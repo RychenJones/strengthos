@@ -14,7 +14,7 @@ let html = `
     <div class="weight-group">
         <label class="weight-label" for="weight">Weight: </label>
         <div class="weight-input">
-            <input type="number" class="weight" name="weight">
+            <input type="number" class="weight" name="weight" placeholder="135">
             <select class="unit" name="unit">
                 <option value="lbs" selected>lbs</option>
                 <option value="kgs">kgs</option>
@@ -23,10 +23,10 @@ let html = `
     </div>
     
     <label class="sets-label" for="sets">Sets completed: </label>
-    <input type="number" class="sets" name="sets">
+    <input type="number" class="sets" name="sets" placeholder="3">
 
     <label class="reps-label" for="reps">Reps completed: </label>
-    <input type="number" class="reps" name="reps">
+    <input type="number" class="reps" name="reps" placeholder="5">
 `
 
 // add a single exercise info block

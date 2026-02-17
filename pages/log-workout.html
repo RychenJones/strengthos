@@ -27,11 +27,14 @@
     <main id="content">
         <h1>Log Workout</h1>
         <form id="workout">
+            <label id="name-label" for="name" required>Workout name: </label>
+            <input type="text" id="name" name="name" placeholder="Epic chest day">
+
             <label id="date-label" for="date" required>Workout date: </label>
             <input type="date" id="date" name="date">
 
             <label id="duration-label" for="duration">Workout duration (minutes): </label>
-            <input type="number" id="duration" name="duration">
+            <input type="number" id="duration" name="duration" placeholder="60">
 
             <label id="intensity-label" for="intensity">Workout intensity: </label>
             <select id="intensity" name="">
