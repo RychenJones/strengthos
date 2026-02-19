@@ -28,6 +28,9 @@
 .close:hover {
     cursor: pointer;
 }
+.modalInfo{
+    padding-top: 80px;
+}
 
 @media screen and (min-width: 700px){
     #modal {
@@ -42,6 +45,9 @@
     }
     #back {
         display: none;
+    }
+    .modalInfo{
+        padding-top: 30px;
     }
 }
 
