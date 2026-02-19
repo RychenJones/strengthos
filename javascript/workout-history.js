@@ -1,5 +1,6 @@
 const container = document.querySelector('#workouts');
 const modal = document.querySelector('dialog');
+const closeBtns = document.querySelectorAll('.close');
 
 // workout info array
 const workoutInfo = [
@@ -29,11 +30,12 @@ workoutInfo.forEach(info => {
     container.appendChild(box);
 })
 
+// create modalInfo section within dialog
 const modalContainer = document.createElement('section');
 modalContainer.classList = 'modalInfo';
 modal.appendChild(modalContainer);
 
-//open and populate modal
+//open modal and populate workout info section within modalInfo
 container.addEventListener('click', (e) => {
     const box = e.target.closest('.workout');
     if (!box) return;
@@ -67,4 +69,11 @@ modal.addEventListener('click', (event) => {
     if (event.target === modal) {
         modal.close();
     }
+});
+
+// Close modal if close button is clicked
+closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+    modal.close();
+    });
 });
