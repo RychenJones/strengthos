@@ -1,15 +1,24 @@
 #modal {
     width: 100%;
     height: 100%;
-    max-width: 1000px;
-    border: black 5px solid;
-    border-radius: 20px;
+    max-width: 660px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+#close {
+    font-size: 4em;
 }
 
+@media screen and (min-width: 700px){
+    #modal {
+        border-radius: 20px;
+        height: 800px;
+        border: black 5px solid;
+        margin: auto;
+    }
+}
 
 @media screen and (min-width: 1200px){
     #modal {
-        height: 800px;
-
     }
 }

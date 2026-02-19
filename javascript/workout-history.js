@@ -29,6 +29,10 @@ workoutInfo.forEach(info => {
     container.appendChild(box);
 })
 
+const modalContainer = document.createElement('section');
+modalContainer.classList = 'modalInfo';
+modal.appendChild(modalContainer);
+
 //open and populate modal
 container.addEventListener('click', (e) => {
     const box = e.target.closest('.workout');
@@ -53,9 +57,9 @@ container.addEventListener('click', (e) => {
             <p>Reps: ${info.reps}</p>
         </div>
     `
-    modal.innerHTML = '';
+    modalContainer.innerHTML = '';
     modalBox.innerHTML = modalHTML;
-    modal.appendChild(modalBox);
+    modalContainer.appendChild(modalBox);
 })
 
 // Close modal if clicking outside the image
