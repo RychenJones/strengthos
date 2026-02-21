@@ -1,3 +1,6 @@
+main {
+    width: 100%;
+}
 h1 {
     color: var(--orange);
     margin-top: 30px;
@@ -9,7 +12,7 @@ h1 {
     grid-template-rows: 40px auto;
     column-gap: 20px;
     border: 1px black solid;
-    width: 90%;
+    width: 95%;
     max-width: 500px;
     margin: 0 auto 20px;
 }
@@ -57,6 +60,10 @@ h1 {
     top: 20px;
     border: 1px black solid;
     padding: 5px;
+    border-radius: 3px;
+}
+#back:hover {
+    color: var(--orange);
 }
 .close:hover {
     cursor: pointer;
@@ -90,6 +97,9 @@ h1 {
 
 
 @media screen and (min-width: 900px){
+    main {
+        width: 80%;
+    }
     #workouts {
         display: grid;
         grid-template-columns: 1fr 1fr;
