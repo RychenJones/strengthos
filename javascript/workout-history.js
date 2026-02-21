@@ -5,26 +5,38 @@ const closeBtns = document.querySelectorAll('.close');
 // workout info array
 const workoutInfo = [
     {
+        name: 'Fun leg day',
+        date: '07/02/25',
+        duration: '60',
+        intensity: '9',
+        exercise: 'Bench Press',
+        weight: '275',
+        unit: 'lbs',
+        sets: '3',
+        reps: '3'
+    },
+    {
         name: 'Epic chest day',
         date: '07/01/25',
         duration: '60',
         intensity: '7',
-        exercise: 'bench press',
+        exercise: 'Bench Press',
         weight: '255',
+        unit: 'lbs',
         sets: '2',
         reps: '10'
     }
 ]
 
 // display base workout info
-workoutInfo.forEach(info => {
+workoutInfo.forEach((info, index) => {
     const box = document.createElement('section');
     box.classList = 'workout';
+    box.dataset.index = index;
     const html = `
-        <p>Name: ${info.name}</p>
-        <p>Date: ${info.date}</p>
-        <p>Duration: ${info.duration}</p>
-        <p>Intensity: ${info.intensity}</p>
+        <p class="name">${info.name} - ${info.date}</p>
+        <p class="duration">${info.duration} minutes</p>
+        <p class="intensity">Intensity: ${info.intensity}</p>
     `
     box.innerHTML = html;
     container.appendChild(box);
@@ -40,7 +52,8 @@ container.addEventListener('click', (e) => {
     const box = e.target.closest('.workout');
     if (!box) return;
 
-    const info = workoutInfo[0];
+    index = box.dataset.index;
+    const info = workoutInfo[index];
 
     modal.showModal();
     
@@ -48,15 +61,14 @@ container.addEventListener('click', (e) => {
     modalBox.classList = 'modalWorkout';
 
     const modalHTML = `
-        <p>Name: ${info.name}</p>
-        <p>Date: ${info.date}</p>
-        <p>Duration: ${info.duration}</p>
-        <p>Intensity: ${info.intensity}</p>
+        <p class="modalName">${info.name} - ${info.date}</p>
+        <p class="modalDuration">${info.duration} minutes</p>
+        <p class="modalIntensity">Intensity: ${info.intensity}</p>
         <div class="exercise-info">
-            <p>Exercise: ${info.exercise}</p>
-            <p>Weight: ${info.weight}</p>
-            <p>Sets: ${info.sets}</p>
-            <p>Reps: ${info.reps}</p>
+            <p class="exercise">Exercise: ${info.exercise}</p>
+            <p class="weight">Weight: ${info.weight} ${info.unit}</p>
+            <p class="sets">Sets: ${info.sets}</p>
+            <p class="reps">Reps: ${info.reps}</p>
         </div>
     `
     modalContainer.innerHTML = '';

@@ -1,3 +1,36 @@
+h1 {
+    color: var(--orange);
+    margin-top: 30px;
+    letter-spacing: 2px;
+}
+.workout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 40px auto;
+    column-gap: 20px;
+    border: 1px black solid;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto 20px;
+}
+.name {
+    grid-column: 1/3;
+    font-size: 1.3em;
+    font-weight: 500;
+}
+.name:hover {
+    cursor: pointer;
+}
+.duration {
+    text-align: right;
+}
+.intensity {
+    text-align: left;
+}
+.duration, .intensity {
+    font-size: 1.1em;
+}
+
 #modal {
     width: 100%;
     height: 100%;
@@ -28,11 +61,40 @@
 .close:hover {
     cursor: pointer;
 }
-.modalInfo{
+.modalInfo {
     padding-top: 80px;
 }
+.modalWorkout {
+    text-align: center;
+}
+.modalName {
+    font-weight: 500;
+    color: var(--orange);
+}
+.modalDuration, .modalIntensity {
+    display: inline;
+    margin: 15px;
+}
+.modalName, .modalDuration, .modalIntensity, .exercise, .weight, .sets, .reps {
+    font-size: 1.5em;
+}
+.exercise-info {
+    width: 80%;
+    margin: 20px auto 0; 
+    border-top: 1px solid black;
+}
+.sets, .reps {
+    display: inline;
+    margin: 15px
+}
 
-@media screen and (min-width: 700px){
+
+@media screen and (min-width: 900px){
+    #workouts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    
     #modal {
         border-radius: 20px;
         height: 800px;
