@@ -26,18 +26,19 @@
     </header>
     <main id="content">
         <h1>Log Workout</h1>
-        <form id="workout">
+        <form id="workout" action="/add-workout" method="POST">
+
             <label id="name-label" for="name" required>Workout name: </label>
-            <input type="text" id="name" name="name" placeholder="Epic chest day">
+            <input type="text" id="name" name="name" placeholder="Epic chest day" required>
 
             <label id="date-label" for="date" required>Workout date: </label>
-            <input type="date" id="date" name="date">
+            <input type="date" id="date" name="date" required>
 
             <label id="duration-label" for="duration">Workout duration (minutes): </label>
             <input type="number" id="duration" name="duration" placeholder="60">
 
             <label id="intensity-label" for="intensity">Workout intensity: </label>
-            <select id="intensity" name="">
+            <select id="intensity" name="intensity" required>
                 <option value="" selected>Select intensity level</option>
                 <option value="1">1 - very easy</option>
                 <option value="2">2</option>
@@ -49,6 +50,7 @@
                 <option value="8">8</option>
                 <option value="9">9 - strenuous</option>
             </select>
+
             <div id="exercise-box">
 
             </div>

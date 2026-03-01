@@ -15,6 +15,18 @@ app.post('/submit-form', (req, res) => {
   res.send('Form received');
 });
 
+// route for add workout
+app.post("/add-workout", (req,res)=>{
+  const { name, date, duration, intensity } = req.body;
+
+  console.log("Workout:", name);
+  console.log("Date:", date);
+  console.log("Duration:", duration);
+  console.log("Intensity:", intensity);
+
+  res.send("Workout logged");
+});
+
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

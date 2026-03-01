@@ -1,9 +1,9 @@
-let btn = document.querySelector('#ham-menu');
-let menu = document.querySelector('nav');
+// let btn = document.querySelector('#ham-menu');
+// let menu = document.querySelector('nav');
 
-btn.addEventListener('click', toggleMenu);
+// btn.addEventListener('click', toggleMenu);
 
-function toggleMenu() {
-        menu.classList.toggle('hide');
-        btn.classList.toggle('change');
-}
+// function toggleMenu() {
+//         menu.classList.toggle('hide');
+//         btn.classList.toggle('change');
+// }
