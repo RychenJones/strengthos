@@ -24,6 +24,23 @@ app.post("/add-workout", (req,res)=>{
   console.log("Duration:", duration);
   console.log("Intensity:", intensity);
 
+  // Handle multiple exercises
+  const exercises = [];
+  if (req.body.exercise) {
+    for (let i = 0; i < req.body.exercise.length; i++) {
+      exercises.push({
+        exercise: req.body.exercise[i],
+        weight: req.body.weight[i],
+        unit: req.body.unit[i],
+        sets: req.body.sets[i],
+        reps: req.body.reps[i]
+      });
+    }
+  }
+
+  console.log("Exercises:", exercises);
+
+  // respond
   res.send("Workout logged");
 });
 
