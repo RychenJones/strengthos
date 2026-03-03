@@ -16,7 +16,7 @@
     </header>
     <main id="content">
         <h3>Just a few more questions to get to know you and your goals!</h3>
-        <form id="questionaire">
+        <form id="questionaire" action="/questionaire" method="GET">
             <label id="weight-label" for="weight">Current bodyweight:</label>
             <div id="bodyweight">
                 <input type="number" id="weight" name="weight">
@@ -28,7 +28,7 @@
             </div>
 
             <label id="fitness-goal-label" for="fitness-goal">What is your primary fitness goal?</label>
-            <select id="fitness-goal" name="fitness-goal">
+            <select id="fitness-goal" name="fitnessGoal">
                 <option value="" disabled selected>Select</option>
                 <option value="strength">Strength</option>
                 <option value="hypertrophy">Hypertrophy</option>
@@ -45,7 +45,7 @@
             </select>
 
             <label id="days-per-week-label" for="days-per-week">How many days per week do you want to excercise?</label>
-            <select id="days-per-week" name="days-per-week">
+            <select id="days-per-week" name="daysPerWeek">
                 <option value="" disabled selected>Select</option>
                 <option value="1">1</option>
                 <option value="2">2</option>

@@ -17,21 +17,21 @@
     <main id="content">
         <h2>Account setup</h2>
         <h3>Lets get started with some basic account information</h3>
-        <form id="sign-up-form">
+        <form id="sign-up-form" action="/create-account" method="POST">
             <label id="name-label" for="name">Name: </label>
-            <input type="text" id="name" name="name">
+            <input type="text" id="name" name="name" required>
 
             <label id="birthdate-label" for="birthdate">Birthdate: </label>
-            <input type="date" id="birthdate" name="birthdate">
+            <input type="date" id="birthdate" name="birthdate" required>
 
             <label id="email-label" for="email">Email: </label>
-            <input type="text" id="email" name="email">
+            <input type="text" id="email" name="email" required>
 
             <label id="password-label" for="password">Password: </label>
-            <input type="text" id="password" name="password">
+            <input type="text" id="password" name="password" required>
 
             <label id="confirm-password-label" for="confirm-password">Confirm password: </label>
-            <input type="text" id="confirm-password" name="confirm-password">
+            <input type="text" id="confirm-password" name="confirm" required>
 
             <input id="submit" type="submit" value="Next">
         </form>
