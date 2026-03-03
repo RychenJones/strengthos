@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const bcrypt = require("bcrypt");
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,31 +19,51 @@ app.post('/submit-form', (req, res) => {
 // routes
 
   // route for login
-  app.post("/login", (req,res)=>{
+  app.post("/login", async (req,res)=>{
     const { email, password } = req.body;
 
+    // Check required fields
+    if (!email || !password) {
+      return res.send("All fields are required");
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     console.log("Email:", email);
-    console.log("Password:", password);
+    console.log("Hashed Password:", hashedPassword);
 
     // respond
     res.send("Logged in");
   });
 
   // route for account creation
-  app.post("/create-account", (req,res)=>{
+  app.post("/create-account", async (req,res)=>{
     const { name, birthdate, email, password, confirm } = req.body;
+
+    // Check required fields
+    if (!name || !birthdate || !email || !password || !confirm) {
+      return res.send("All fields are required");
+    }
+
+    // Check password match
+    if (password !== confirm) {
+      return res.send("Passwords do not match");
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     console.log("Name:", name);
     console.log("Birthdate:", birthdate);
     console.log("Email", email);
-    console.log("Password", password);
-    console.log("Confirm Password", confirm);
+    console.log("Hashed password", hashedPassword);
 
     // respond
     res.send("Received");
   });
 
-  // route for account creation
+  // route for questionaire
   app.post("/questionaire", (req,res)=>{
     const { weight, unit, fitnessGoal, experience, daysPerWeek } = req.body;
 
@@ -57,11 +78,23 @@ app.post('/submit-form', (req, res) => {
   });
 
   // route for password reset
-  app.post("/reset", (req,res)=>{
+  app.post("/reset", async (req,res)=>{
     const { pw, confirmPw } = req.body;
 
-    console.log("Password:", pw);
-    console.log("Confirm password:", confirmPw);
+    // Check required fields
+    if (!pw || !confirmPw) {
+      return res.send("All fields are required");
+    }
+
+    // Check password match
+    if (pw !== confirmPw) {
+      return res.send("Passwords do not match");
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(pw, 10);
+
+    console.log("Hashed Password:", hashedPassword);
 
     // respond
     res.send("Password reset");
