@@ -1,10 +1,8 @@
 const addExercise = document.getElementById('add-exercise');
 const box = document.getElementById('exercise-box');
-let exerciseCount = 0;
 
 // add a single exercise info block
 addExercise.addEventListener('click', () => {
-    exerciseCount++;
     const block = document.createElement('div');
     block.className = 'exercise-info';
 

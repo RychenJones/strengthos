@@ -1,11 +1,17 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 const bcrypt = require("bcrypt");
 
+// SQLite database
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('./database.db', (err) => {
+  if (err) console.error(err.message);
+  else console.log('Connected to SQLite database.');
+});
+
 // Middleware to parse form data
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Serve static files (HTML, CSS, JS)
 app.use(express.static('public')); // put your HTML/CSS/JS in a folder named 'public'
