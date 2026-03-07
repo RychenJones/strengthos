@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 // SQLite database
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database.db', (err) => {
+const db = new sqlite3.Database('database/database.db', (err) => {
   if (err) console.error(err.message);
   else console.log('Connected to SQLite database.');
 });
@@ -23,7 +23,6 @@ app.post('/submit-form', (req, res) => {
 });
 
 // routes
-
   // route for login
   app.post("/login", async (req,res)=>{
     const { email, password } = req.body;
@@ -33,14 +32,35 @@ app.post('/submit-form', (req, res) => {
       return res.send("All fields are required");
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Email:", email); // your original comment
+    console.log("unHashed Password:", password); // your original comment
 
-    console.log("Email:", email);
-    console.log("Hashed Password:", hashedPassword);
+    // --- Changed to hashed password check ---
+    db.get(
+      "SELECT * FROM users WHERE email = ?", // query by email only (changed from email+password)
+      [email], // parameter for email (changed)
+      async (err, row) => { // added async here to use await for bcrypt.compare
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send("Server error");
+        }
 
-    // respond
-    res.send("Logged in");
+        if (row) {
+          const match = await bcrypt.compare(password, row.password); // compare entered password with hashed password (added)
+          if (match) {
+            console.log("Login successful for:", row.name); // same as before
+            return res.send(`Login successful for ${row.name}`); // same as before
+          } else {
+            console.log("Login failed for:", email); // same as before
+            return res.status(401).send("Login failed"); // same as before
+          }
+        } else {
+          console.log("Login failed for:", email); // same as before
+          return res.status(401).send("Login failed"); // same as before
+        }
+      }
+    ); // end db.get
+    // --- End of hashed password check ---
   });
 
   // route for account creation
@@ -57,16 +77,26 @@ app.post('/submit-form', (req, res) => {
       return res.send("Passwords do not match");
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10); // hash password before saving (added)
 
-    console.log("Name:", name);
-    console.log("Birthdate:", birthdate);
-    console.log("Email", email);
-    console.log("Hashed password", hashedPassword);
+    console.log("Name:", name); // original comment
+    console.log("Birthdate:", birthdate); // original comment
+    console.log("Email", email); // original comment
+    console.log("Hashed password", hashedPassword); // updated to show hashed password (changed)
 
-    // respond
-    res.send("Received");
+    // Insert new user into DB
+    db.run(
+      "INSERT INTO users (name, birthdate, email, password) VALUES (?, ?, ?, ?)", // changed from no DB insert to actual insert
+      [name, birthdate, email, hashedPassword], // parameters including hashed password (added)
+      function(err){
+        if (err) {
+          console.error(err.message); // same as before
+          return res.status(500).send("Server error"); // respond 500
+        }
+        console.log("Account created for:", name); // log success
+        res.send("Account created"); // respond success
+      }
+    ); // end db.run
   });
 
   // route for questionaire
