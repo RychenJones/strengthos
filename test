@@ -102,7 +102,7 @@ app.post('/submit-form', (req, res) => {
           console.error(err.message); // same as before
           return res.status(500).send("Server error"); // respond 500
         }
-        req.session.users_id = this.lastID; // last inserted user ID
+        req.session.userId = this.lastID; // last inserted user ID
         req.session.email = email;
         console.log("Account created for:", name); // log success
         res.send("Account created"); // respond success

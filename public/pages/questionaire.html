@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="../styles/universal.css">
     <link rel="stylesheet" href="../styles/questionaire.css">
+    <script src="../javascript/questionaire.js" defer></script>
 </head>
 <body>
     <header>
@@ -16,7 +17,7 @@
     </header>
     <main id="content">
         <h3>Just a few more questions to get to know you and your goals!</h3>
-        <form id="questionaire" action="/questionaire" method="GET">
+        <form id="questionaire" action="/questionaire" method="POST">
             <label id="weight-label" for="weight">Current bodyweight:</label>
             <div id="bodyweight">
                 <input type="number" id="weight" name="weight">
