@@ -7,6 +7,21 @@
     --lightgrey: #F8F9FA;
     --teal: #00BFA5;
 }
+/* #banner {
+    position: fixed; 
+    top: 0;  
+    left: 0;
+    width: 100%;
+    z-index: 9999; 
+    background-color: var(--orange);
+    padding: 1rem;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+#banner.fade-out {
+    opacity: 0;
+} */
 #content {
     margin-top: 60px;
 }
@@ -104,7 +119,7 @@ div p {
         grid-template-rows: 1fr;
     }
     #buttons a:hover {
-    border: 3px grey solid;
+        border: 3px grey solid;
     }   
     #log {
         grid-column: 1/2;

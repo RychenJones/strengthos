@@ -58,7 +58,7 @@ app.post('/submit-form', (req, res) => {
           if (match) {
             req.session.users_id = row.users_id;   // store user ID in session
             console.log("Login successful for:", row.name); // same as before
-            return res.send(`Login successful for ${row.name}`); // same as before
+            return res.redirect("/pages/dashboard.html");
           } else {
             console.log("Login failed for:", email); // same as before
             return res.status(401).send("Login failed"); // same as before
@@ -105,7 +105,7 @@ app.post('/submit-form', (req, res) => {
         req.session.users_id = this.lastID; // last inserted user ID
         req.session.email = email;
         console.log("Account created for:", name); // log success
-        res.send("Account created"); // respond success
+        res.redirect("/pages/questionaire.html");
       }
     ); // end db.run
   });
@@ -135,7 +135,7 @@ app.post('/submit-form', (req, res) => {
           console.error(err.message);
           return res.status(500).send("Server error");
         }
-        res.send("Questionaire saved");
+        res.redirect("/pages/dashboard.html");
       }
     );
   });
