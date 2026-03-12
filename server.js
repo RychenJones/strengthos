@@ -114,7 +114,9 @@ app.post('/submit-form', (req, res) => {
   app.post("/questionaire", async (req,res)=>{
     const { weight, unit, fitnessGoal, experience, daysPerWeek } = req.body;
 
-    if (!req.session.users_id) return res.redirect("/login"); // only logged-in users
+    if (!req.session.users_id) {
+      return res.redirect("/login"); // only logged-in users
+    }
 
     if (!weight || !unit || !fitnessGoal || !experience || !daysPerWeek) {
       return res.send("All fields are required");
@@ -163,33 +165,103 @@ app.post('/submit-form', (req, res) => {
     res.send("Password reset");
   });
 
-  // route for add workout
-  app.post("/add-workout", (req,res)=>{
-    const { name, date, duration, intensity } = req.body;
+  // route for add workout ---------------------------------------
+  app.post("/add-workout", (req, res) => {
+    const { name, date, duration, rating } = req.body;
+
+    // Check if user is logged in
+    if (!req.session.users_id) {
+      return res.status(401).send("You must be logged in to log a workout");
+    }
+
+    // Require fields
+    if (!name || !date) {
+      return res.send("Name and date are required");
+    }
 
     console.log("Workout:", name);
     console.log("Date:", date);
     console.log("Duration:", duration);
-    console.log("Intensity:", intensity);
+    console.log("Rating:", rating);
 
-    // Handle multiple exercises
-    const exercises = [];
-    if (req.body.exercise) {
-      for (let i = 0; i < req.body.exercise.length; i++) {
-        exercises.push({
-          exercise: req.body.exercise[i],
-          weight: req.body.weight[i],
-          unit: req.body.unit[i],
-          sets: req.body.sets[i],
-          reps: req.body.reps[i]
-        });
-      }
+    // Normalize single/multiple exercises
+    let exerciseNames = req.body.exercise;
+    let weights = req.body.weight;
+    let units = req.body.unit;
+    let setsArr = req.body.sets;
+    let repsArr = req.body.reps;
+
+    if (!Array.isArray(exerciseNames)) {
+      exerciseNames = [exerciseNames];
+      weights = [weights];
+      units = [units];
+      setsArr = [setsArr];
+      repsArr = [repsArr];
     }
+
+    // Build exercises array
+    const exercises = exerciseNames.map((ex, i) => ({
+      exercise: ex,
+      weight: weights[i],
+      unit: units[i],
+      sets: setsArr[i],
+      reps: repsArr[i],
+    }));
+
+    const workoutDuration = parseInt(duration);
+    const workoutRating = parseInt(rating);
+
+    exercises.forEach(ex => {
+    ex.sets = parseInt(ex.sets);
+    ex.reps = parseInt(ex.reps);
+    ex.weight = parseInt(ex.weight);
+    });
 
     console.log("Exercises:", exercises);
 
-    // respond
-    res.send("Workout logged");
+    // Insert workout
+    db.run(
+      "INSERT INTO workouts (users_id, name, date, duration, rating) VALUES (?, ?, ?, ?, ?)",
+      [req.session.users_id, name, date, workoutDuration, workoutRating],
+      function (err) {
+        if (err) return res.status(500).send("Server error");
+
+        const workoutId = this.lastID;
+
+        // Insert exercises sequentially to ensure all are done
+        const insertExercise = (index) => {
+          if (index >= exercises.length) {
+            // All exercises inserted, redirect
+            return res.redirect("/pages/dashboard.html");
+          }
+
+          const ex = exercises[index];
+
+          db.get(
+            "SELECT exercises_id FROM exercise WHERE name=?",
+            [ex.exercise],
+            (err, row) => {
+              if (err || !row) {
+                console.error("Exercise not found:", ex.exercise);
+                // Skip missing exercise and continue
+                return insertExercise(index + 1);
+              }
+
+              db.run(
+                "INSERT INTO workouts_exercises (workout_id, exercises_id, sets, reps, weight, unit) VALUES (?, ?, ?, ?, ?, ?)",
+                [workoutId, row.exercises_id, ex.sets, ex.reps, ex.weight, ex.unit],
+                (err) => {
+                  if (err) console.error(err.message);
+                  insertExercise(index + 1);
+                }
+              );
+            }
+          );
+        };
+
+        insertExercise(0); // start inserting exercises
+      }
+    );
   });
 
 // Start the server
