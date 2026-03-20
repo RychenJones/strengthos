@@ -31,7 +31,7 @@ app.post('/submit-form', (req, res) => {
 });
 
 // routes
-  // route for login
+  // route for login ----------------------------------------------
   app.post("/login", async (req,res)=>{
     const { email, password } = req.body;
 
@@ -72,7 +72,7 @@ app.post('/submit-form', (req, res) => {
     // --- End of hashed password check ---
   });
 
-  // route for account creation
+  // route for account creation ----------------------------------------------
   app.post("/create-account", async (req,res)=>{
     const { name, birthdate, email, password, confirm } = req.body;
 
@@ -110,7 +110,7 @@ app.post('/submit-form', (req, res) => {
     ); // end db.run
   });
 
-  // route for questionaire
+  // route for questionaire ----------------------------------------------
   app.post("/questionaire", async (req,res)=>{
     const { weight, unit, fitnessGoal, experience, daysPerWeek } = req.body;
 
@@ -142,7 +142,19 @@ app.post('/submit-form', (req, res) => {
     );
   });
 
-  // route for password reset
+
+  // route to get all exercises (for dropdown) ----------------------------
+  app.get("/exercises", (req, res) => {
+    db.all("SELECT exercises_id, name FROM exercises", [], (err, rows) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Server error");
+      }
+      res.json(rows);
+    });
+  });
+
+  // route for password reset ----------------------------------------------
   app.post("/reset", async (req,res)=>{
     const { pw, confirmPw } = req.body;
 
@@ -167,7 +179,7 @@ app.post('/submit-form', (req, res) => {
 
   // route for add workout ---------------------------------------
   app.post("/add-workout", (req, res) => {
-    const { name, date, duration, rating } = req.body;
+    const { name, date, duration, intensity } = req.body;
 
     // Check if user is logged in
     if (!req.session.users_id) {
@@ -179,10 +191,11 @@ app.post('/submit-form', (req, res) => {
       return res.send("Name and date are required");
     }
 
+    // Print values
     console.log("Workout:", name);
     console.log("Date:", date);
     console.log("Duration:", duration);
-    console.log("Rating:", rating);
+    console.log("Intensity:", intensity);
 
     // Normalize single/multiple exercises
     let exerciseNames = req.body.exercise;
@@ -208,8 +221,9 @@ app.post('/submit-form', (req, res) => {
       reps: repsArr[i],
     }));
 
+    // Convert strings to integers
     const workoutDuration = parseInt(duration);
-    const workoutRating = parseInt(rating);
+    const workoutIntensity = parseInt(intensity);
 
     exercises.forEach(ex => {
     ex.sets = parseInt(ex.sets);
@@ -217,14 +231,16 @@ app.post('/submit-form', (req, res) => {
     ex.weight = parseInt(ex.weight);
     });
 
+    // Print exercises
     console.log("Exercises:", exercises);
 
     // Insert workout
     db.run(
-      "INSERT INTO workouts (users_id, name, date, duration, rating) VALUES (?, ?, ?, ?, ?)",
-      [req.session.users_id, name, date, workoutDuration, workoutRating],
+      "INSERT INTO workouts (users_id, name, date, duration, intensity) VALUES (?, ?, ?, ?, ?)",
+      [req.session.users_id, name, date, workoutDuration, workoutIntensity],
       function (err) {
-        if (err) return res.status(500).send("Server error");
+        if (err) 
+          return res.status(500).send("Server error");
 
         const workoutId = this.lastID;
 
@@ -238,7 +254,7 @@ app.post('/submit-form', (req, res) => {
           const ex = exercises[index];
 
           db.get(
-            "SELECT exercises_id FROM exercise WHERE name=?",
+            "SELECT exercises_id FROM exercises WHERE exercises_id=?",
             [ex.exercise],
             (err, row) => {
               if (err || !row) {
@@ -248,7 +264,7 @@ app.post('/submit-form', (req, res) => {
               }
 
               db.run(
-                "INSERT INTO workouts_exercises (workout_id, exercises_id, sets, reps, weight, unit) VALUES (?, ?, ?, ?, ?, ?)",
+                "INSERT INTO workouts_exercises (workouts_id, exercises_id, sets, reps, weight, unit) VALUES (?, ?, ?, ?, ?, ?)",
                 [workoutId, row.exercises_id, ex.sets, ex.reps, ex.weight, ex.unit],
                 (err) => {
                   if (err) console.error(err.message);
@@ -262,6 +278,38 @@ app.post('/submit-form', (req, res) => {
         insertExercise(0); // start inserting exercises
       }
     );
+  });
+
+
+  // route to get workout history for logged-in user --------------------------------------
+  app.get("/history", (req, res) => {
+    // 1. check if user is logged in
+    const userId = req.session.users_id;
+    if (!userId) {
+      return res.status(401).send("You must be logged in to see history");
+    }
+
+    // 2. SQL to get workouts + exercises
+    const sql = `
+      SELECT w.workouts_id, w.name AS workout_name, w.date, w.duration, w.intensity,
+            e.name AS exercise_name, we.sets, we.reps, we.weight, we.unit
+      FROM workouts w
+      LEFT JOIN workouts_exercises we ON w.workouts_id = we.workouts_id
+      LEFT JOIN exercises e ON we.exercises_id = e.exercises_id
+      WHERE w.users_id = ?
+      ORDER BY w.date DESC
+    `;
+
+    // 3. run the query
+    db.all(sql, [userId], (err, rows) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Server error");
+      }
+
+      // 4. send as JSON
+      res.json(rows);
+    });
   });
 
 // Start the server
