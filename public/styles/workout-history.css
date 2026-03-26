@@ -16,6 +16,17 @@ h1 {
     width: 95%;
     max-width: 500px;
     margin: 0 auto 20px;
+    position: relative;
+}
+.remove {
+    color: var(--orange);
+    position: absolute;
+    left: 20px;
+    font-size: 1.2em;
+    margin-top: 15px;
+}
+.remove:hover {
+    cursor: pointer;
 }
 .name {
     grid-column: 1/3;

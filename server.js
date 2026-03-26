@@ -197,39 +197,49 @@ app.post('/submit-form', (req, res) => {
     console.log("Duration:", duration);
     console.log("Intensity:", intensity);
 
-    // Normalize single/multiple exercises
-    let exerciseNames = req.body.exercise;
-    let weights = req.body.weight;
-    let units = req.body.unit;
-    let setsArr = req.body.sets;
-    let repsArr = req.body.reps;
+    // --- Handle multiple sets per exercise (nested arrays) ---
+    const { exercise, weight, reps, unit } = req.body;
+    const exercises = [];
 
-    if (!Array.isArray(exerciseNames)) {
-      exerciseNames = [exerciseNames];
-      weights = [weights];
-      units = [units];
-      setsArr = [setsArr];
-      repsArr = [repsArr];
+    // HARD validation: must exist
+    if (!exercise || !weight || !reps || !unit) {
+      return res.status(400).send("Malformed form data");
     }
 
-    // Build exercises array
-    const exercises = exerciseNames.map((ex, i) => ({
-      exercise: ex,
-      weight: weights[i],
-      unit: units[i],
-      sets: setsArr[i],
-      reps: repsArr[i],
-    }));
+    Object.keys(exercise).forEach(i => {
+      const exerciseId = exercise[i];
+
+      // HARD validation per exercise
+      if (!weight[i] || !reps[i] || !unit[i]) {
+        throw new Error(`Missing set data for exercise index ${i}`);
+      }
+
+      const weightsArr = Array.isArray(weight[i]) ? weight[i] : [weight[i]];
+      const repsArr = Array.isArray(reps[i]) ? reps[i] : [reps[i]];
+      const unitsArr = Array.isArray(unit[i]) ? unit[i] : [unit[i]];
+
+      // ensure equal lengths
+      if (
+        weightsArr.length !== repsArr.length ||
+        weightsArr.length !== unitsArr.length
+      ) {
+        throw new Error(`Mismatched set lengths at exercise index ${i}`);
+      }
+
+      for (let j = 0; j < weightsArr.length; j++) {
+        exercises.push({
+          exercise: parseInt(exerciseId),
+          weight: parseInt(weightsArr[j]),
+          reps: parseInt(repsArr[j]),
+          unit: unitsArr[j]
+        });
+      }
+    });
+    // --- End of multiple set handling ---
 
     // Convert strings to integers
     const workoutDuration = parseInt(duration);
     const workoutIntensity = parseInt(intensity);
-
-    exercises.forEach(ex => {
-    ex.sets = parseInt(ex.sets);
-    ex.reps = parseInt(ex.reps);
-    ex.weight = parseInt(ex.weight);
-    });
 
     // Print exercises
     console.log("Exercises:", exercises);
@@ -259,15 +269,14 @@ app.post('/submit-form', (req, res) => {
             (err, row) => {
               if (err || !row) {
                 console.error("Exercise not found:", ex.exercise);
-                // Skip missing exercise and continue
-                return insertExercise(index + 1);
+                return res.status(400).send("Invalid exercise ID");
               }
 
               db.run(
-                "INSERT INTO workouts_exercises (workouts_id, exercises_id, sets, reps, weight, unit) VALUES (?, ?, ?, ?, ?, ?)",
-                [workoutId, row.exercises_id, ex.sets, ex.reps, ex.weight, ex.unit],
+                "INSERT INTO workouts_exercises (workouts_id, exercises_id, reps, weight, unit) VALUES (?, ?, ?, ?, ?)",
+                [workoutId, row.exercises_id, ex.reps, ex.weight, ex.unit],
                 (err) => {
-                  if (err) console.error(err.message);
+                  if (err) return res.status(500).send("Insert failed");
                   insertExercise(index + 1);
                 }
               );
@@ -275,7 +284,7 @@ app.post('/submit-form', (req, res) => {
           );
         };
 
-        insertExercise(0); // start inserting exercises
+        insertExercise(0);
       }
     );
   });
@@ -283,33 +292,121 @@ app.post('/submit-form', (req, res) => {
 
   // route to get workout history for logged-in user --------------------------------------
   app.get("/history", (req, res) => {
-    // 1. check if user is logged in
     const userId = req.session.users_id;
-    if (!userId) {
-      return res.status(401).send("You must be logged in to see history");
-    }
+    if (!userId) return res.status(401).send("You must be logged in to see history");
 
-    // 2. SQL to get workouts + exercises
     const sql = `
       SELECT w.workouts_id, w.name AS workout_name, w.date, w.duration, w.intensity,
-            e.name AS exercise_name, we.sets, we.reps, we.weight, we.unit
+            e.exercises_id, e.name AS exercise_name, we.reps, we.weight, we.unit
       FROM workouts w
       LEFT JOIN workouts_exercises we ON w.workouts_id = we.workouts_id
       LEFT JOIN exercises e ON we.exercises_id = e.exercises_id
       WHERE w.users_id = ?
-      ORDER BY w.date DESC
+      ORDER BY w.date DESC, e.exercises_id
     `;
 
-    // 3. run the query
     db.all(sql, [userId], (err, rows) => {
       if (err) {
         console.error(err);
         return res.status(500).send("Server error");
       }
 
-      // 4. send as JSON
-      res.json(rows);
+      // Transform flat rows into nested structure
+      const history = [];
+
+      rows.forEach(row => {
+        // find existing workout
+        let workout = history.find(w => w.workouts_id === row.workouts_id);
+        if (!workout) {
+          workout = {
+            workouts_id: row.workouts_id,
+            name: row.workout_name,
+            date: row.date,
+            duration: row.duration,
+            intensity: row.intensity,
+            exercises: []
+          };
+          history.push(workout);
+        }
+
+        if (row.exercises_id) {
+          // find existing exercise in workout
+          let exercise = workout.exercises.find(e => e.exercises_id === row.exercises_id);
+          if (!exercise) {
+            exercise = {
+              exercises_id: row.exercises_id,
+              name: row.exercise_name,
+              sets: []
+            };
+            workout.exercises.push(exercise);
+          }
+
+          exercise.sets.push({
+            reps: row.reps,
+            weight: row.weight,
+            unit: row.unit
+          });
+        }
+      });
+
+      res.json(history);
     });
+  });
+
+
+
+
+  // route to delete a workout ---------------------------------------
+  app.delete("/delete-workout/:id", (req, res) => {
+    const workoutId = req.params.id;
+    const userId = req.session.users_id;
+
+    // must be logged in
+    if (!userId) {
+      return res.status(401).send("Not authorized");
+    }
+
+    // verify workout belongs to user
+    db.get(
+      "SELECT * FROM workouts WHERE workouts_id = ? AND users_id = ?",
+      [workoutId, userId],
+      (err, row) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Server error");
+        }
+
+        if (!row) {
+          return res.status(404).send("Workout not found");
+        }
+
+        // delete associated exercises first
+        db.run(
+          "DELETE FROM workouts_exercises WHERE workouts_id = ?",
+          [workoutId],
+          (err) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).send("Failed to delete exercises");
+            }
+
+            // delete workout
+            db.run(
+              "DELETE FROM workouts WHERE workouts_id = ?",
+              [workoutId],
+              (err) => {
+                if (err) {
+                  console.error(err);
+                  return res.status(500).send("Failed to delete workout");
+                }
+
+                res.sendStatus(200);
+              }
+            );
+          }
+        );
+      }
+    );
   });
 
 // Start the server
